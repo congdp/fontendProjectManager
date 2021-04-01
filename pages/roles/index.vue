@@ -1,64 +1,22 @@
 <template>
   <div>
-    <CCard>
-      <CCardBody >
-        <CButton color="info">
-          <nuxt-link :to="`/roles/Create`">Add</nuxt-link>
-        </CButton><br>
-        <search-form @getKeySearch=searchRole /><br>
-      <CDataTable :items="listRoles"
-                  :fields="fields"
-                  hover
-                  sorter
-        pagination>
-        <template #show_details="{item}">
-          <CButtonGroup>
-            <CButton  color="danger" @click="deleteRole(item.id)">
-                  Delete
-            </CButton>
-            <CButton color="success">
-              <nuxt-link :to="`/roles/${item.id}`">Edit</nuxt-link>
-            </CButton>
-          </CButtonGroup>  
-        </template> 
-      </CDataTable>
-      </CCardBody>
-    </CCard>
+    <search  @sendKeyword="getKeyword"/>
+    <list-role :listRoles="listRoles"></list-role>
   </div>  
 </template>
 <script>
-const fields = [
-    { key: 'id', label: 'ID',_style:'min-width:50px' },
-    { key: 'name', label: 'RoleName',_style:'min-width:150px' },
-    { key: 'created_at', _style:'min-width:50px;' },
-    { key: 'updated_at', _style:'min-width:50px;' },
-    { 
-    key: 'show_details', 
-    label: '', 
-    _style: 'width:1%', 
-    sorter: false, 
-    filter: false
-    }
-]
 import ListRole from "@/components/roles/ListRole.vue";
-import SearchForm from "@/components/roles/SearchForm.vue";
+import Search from "@/components/common/Search"
 import axios from 'axios'
 export default {
-  name: 'ListRole',
   components : {
     ListRole,
-    SearchForm
+    Search
   },
   data () {
     return {
       listRoles:[],
-      fields,
-      details: [],
-      collapseDuration: 0,
-      page : {},
-      currentPage : 1,
-      keySearch : ''
-      
+      search: ''
     }
   },
   methods: {
@@ -66,19 +24,12 @@ export default {
       axios({method: 'GET',url: 'http://127.0.0.1:8000/api/roles/',data: null}).then(res =>{this.listRoles = res.data; 
       }).catch(err => {console.log(err)}) 
     }, 
-    deleteRole(id)
-    {
-      console.log(id)
-      axios.delete('http://127.0.0.1:8000/api/roles/' + id).then(response => {
-        this.items.splice((index), 1)
-        });
-    },
-    searchRole(value){
-      this.keySearch=value;
-      console.log(this.keySearch)
-      axios.get("http://localhost:8000/api/roles/search?name="+this.keySearch).then(res => {
-        this.dataUser = res.data;
-       
+    getKeyword(value){
+      this.search = value;
+      axios.get("http://localhost:8000/api/roles?name="+this.search).then(res => {
+        this.listRoles = res.data;
+        console.log(res.data);
+        // this.page = res.data;
       });
     }
   },
@@ -87,6 +38,5 @@ export default {
   },
 }
 </script>
-
 <style>
 </style>

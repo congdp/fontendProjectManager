@@ -78,8 +78,8 @@ export default {
       form: {
         id: "",
         name: "",
-        password: "",
-        password_confirmation: "",
+        password : "",
+        password_confirmation:"",
         email: "",
         role_id: "",
       },

@@ -1,13 +1,18 @@
 <template>
   <div>
-    <CCardBody>
-      <CRow>
-        <CCol sm="12">
-        <CInput label="Name" v-model="dataRole.name" placeholder="Enter your name"/>       
-        </CCol>
-      </CRow>
-    </CCardBody>
-    <CButton
+    <CCard>
+      <CCardHeader>
+        {{title}}
+      </CCardHeader>
+      <CCardBody>
+        <CRow>
+          <CCol sm="12">
+          <CInput label="Name" v-model="dataRole.name" placeholder="Enter your name"/>       
+          </CCol>
+        </CRow>
+      </CCardBody>
+      <CCardFooter>
+         <CButton
         v-if="!this.$route.params.id"
          color="primary"  @click="addRole()"
         >
@@ -16,6 +21,8 @@
         <CButton v-else color="primary" class="btn-click" @click="editRole(dataRole.id)" >
           Update
         </CButton>
+      </CCardFooter>
+    </CCard>
   </div>
 </template>
 <script>
@@ -31,6 +38,9 @@ export default {
             'name' : ''
         }
     }
+  },
+  props:{
+    title:"",
   },
   methods : {
     addRole(){

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <create-edit-role />
+    <create-edit-role :title="title" />
   </div>
 </template>
 <script>
@@ -13,12 +13,7 @@ export default {
   },
   data() {
     return {
-        
-        showEdit: true,
-        dataRole : {
-            'id' : '',
-            'name' : ''
-        }
+      title : "Edit Role"
     }
   },
 
