@@ -16,7 +16,8 @@ export default {
   data() {
     return {
       dataTasks: [],
-       search:""
+       search:"",
+         condition: {},
     };
 
   },
@@ -25,18 +26,28 @@ export default {
      * get list task
      */
     getData() {
-      axios.get("http://127.0.0.1:8000/api/task").then((res) => {
+      // const url = this.search ? "http://127.0.0.1:8000/api/tasks?subject="+this.search : "http://127.0.0.1:8000/api/task";
+      axios.get("http://127.0.0.1:8000/api/task?").then((res) => {
+        console.log(res.data.task);
         this.dataTasks = res.data;
-        console.log(this.dataTasks);
-        // this.page = res.data
+        console.log(this.dataTasks[0].id);
       });
     },
+
+    //  getDataById() {
+    //   // const url = this.search ? "http://127.0.0.1:8000/api/tasks?subject="+this.search : "http://127.0.0.1:8000/api/task";
+    //   axios.get("http://127.0.0.1:8000/api/task?parent_id=" + this.id).then((res) => {
+    //     console.log(res.data.task);
+    //     this.dataTasks = res.data;
+    //     console.log(this.dataTasks);
+    //   });
+    // },
      getKeyword(value){
       this.search = value;
       axios.get("http://localhost:8000/api/tasks?subject="+this.search).then(res => {
         this.dataTasks = res.data;
         console.log(this.dataTasks)
-
+  
       });
     }
   },

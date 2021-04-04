@@ -28,6 +28,17 @@
   </div>
 </template>
 <script>
+const user_task = [
+  { key: "id", label: "Id" },
+  { key: "subject", label: "Name" },
+  { key: "id_project", label: "Project" },
+  { key: "content", label: "Content" },
+  { key: "member_id", label: "Assignee" },
+  { key: "status", label: "Status" },
+  { key: "start_date", label: "Start Date" },
+  { key: "due_date", label: "Due Date" },
+ 
+];
 import axios from "axios";
 export default {
   name: "ListUser",
@@ -43,8 +54,14 @@ export default {
   },
   data() {
     return {
+      dataUser: this.dataUser.map((item, id) => {
+        return { item, id };
+      }),
       dataRole: [],
-      data: {}
+      listTasks : [],
+      details: [],
+      collapseDuration: 0,
+      user_task : user_task
     };
   },
   methods: {

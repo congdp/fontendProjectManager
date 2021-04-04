@@ -27,13 +27,14 @@ export default {
       axios.get("http://127.0.0.1:8000/api/projects").then((res) => {
         this.dataProjects = res.data;
         // this.page = res.data
+
       });
     },
       getKeyword(value){
       this.search = value;
       axios.get("http://localhost:8000/api/project?name="+this.search).then(res => {
         this.dataProjects = res.data;
-        // console.log(res.data);
+        console.log(res.data);
         // this.page = res.data;
       });
     }
