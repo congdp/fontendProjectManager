@@ -81,7 +81,7 @@ export default {
                         propertyName: 'accessToken'
                     },
                     user: {
-                        url: 'auth/user',
+                        url: 'user',
                         method: 'get',
                         propertyName: 'user'
                     },

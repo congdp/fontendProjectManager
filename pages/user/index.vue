@@ -38,8 +38,9 @@ export default {
      */
     getUser() {
       try {
-        axios.get("http://127.0.0.1:8000/api/auth/all-user").then((res) => {
-        this.dataUser = res.data.user;
+        axios.get("http://127.0.0.1:8000/api/all-user").then((res) => {
+        this.dataUser = res.data;
+        // console.log(res);
         // this.page = res.data;
       });
       } catch (error) {
@@ -57,8 +58,6 @@ export default {
         .get("http://localhost:8000/api/search?username=" + this.search)
         .then((res) => {
           this.dataUser = res.data;
-          // console.log(res.data);
-          // this.page = res.data;
         });
     },
   },
