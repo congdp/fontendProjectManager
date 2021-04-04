@@ -33,7 +33,7 @@
           </CCol>
         </CRow>
         <CRow>
-          <CCol sm="12">
+          <!-- <CCol sm="12">
               <label>Role</label>
               <select id="id_project" v-model="form.role_id" class="form-control">
               <option
@@ -44,7 +44,7 @@
               {{ item.name }}
               </option>
             </select>
-          </CCol>
+          </CCol> -->
         </CRow>
         <br>
         <CRow>
@@ -175,7 +175,7 @@ export default {
     },
   },
   mounted() {
-    this.getDataRole();
+    // this.getDataRole();
 
     /**
      * check param in url 

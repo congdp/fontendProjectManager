@@ -1,7 +1,7 @@
 <template>
   <div>
-    <search  @sendKeyword="getKeyword"/>
-    <list-role :listRoles="listRoles"></list-role>
+    <!-- <search  @sendKeyword="getKeyword"/>
+    <list-role :listRoles="listRoles"></list-role> -->
   </div>  
 </template>
 <script>
@@ -19,24 +19,24 @@ export default {
       search: ''
     }
   },
-  methods: {
-    listData(){
-      axios({method: 'GET',url: 'http://127.0.0.1:8000/api/roles/',data: null}).then(res =>{this.listRoles = res.data; 
-      }).catch(err => {console.log(err)}) 
-    }, 
-    getKeyword(value){
-      this.search = value;
-      axios.get("http://localhost:8000/api/roles?name="+this.search).then(res => {
-        this.listRoles = res.data;
-        console.log(res.data);
-        // this.page = res.data;
-      });
-    }
-  },
-  mounted () {
-    this.listData();   
-  },
-}
+//   methods: {
+//     listData(){
+//       axios({method: 'GET',url: 'http://127.0.0.1:8000/api/roles/',data: null}).then(res =>{this.listRoles = res.data; 
+//       }).catch(err => {console.log(err)}) 
+//     }, 
+//     getKeyword(value){
+//       this.search = value;
+//       axios.get("http://localhost:8000/api/roles?name="+this.search).then(res => {
+//         this.listRoles = res.data;
+//         console.log(res.data);
+//         // this.page = res.data;
+//       });
+//     }
+//   },
+//   mounted () {
+//     this.listData();   
+//   },
+ }
 </script>
 <style>
 </style>

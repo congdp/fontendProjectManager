@@ -27,7 +27,7 @@ export default {
     getData() {
       axios.get("http://127.0.0.1:8000/api/task").then((res) => {
         this.dataTasks = res.data;
-        // console.log(this.dataTasks);
+        console.log(this.dataTasks);
         // this.page = res.data
       });
     },

@@ -37,10 +37,14 @@ export default {
      * get all user in api
      */
     getUser() {
-      axios.get("http://localhost:8000/api/all-user").then((res) => {
-        this.dataUser = res.data;
+      try {
+        axios.get("http://127.0.0.1:8000/api/auth/all-user").then((res) => {
+        this.dataUser = res.data.user;
         // this.page = res.data;
       });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     /**
