@@ -5,7 +5,7 @@
         <h3>List Projects</h3>
       </CCardHeader>
       <CCardBody>
-        <CButton color="primary" class="m-2 btn_add">
+        <CButton color="primary" class="m-2 btn_add"  v-if="$nuxt.$auth.user.role_id == 1">
           <nuxt-link to="/project/add" class="text-white d-block">
             + Add</nuxt-link
           >
@@ -46,7 +46,6 @@ const fields = [
   { key: "name", label: "Name", _style: "min-width:150px" },
   { key: "desc", label: "Description", _style: "min-width:100px;" },
   { key: "start_date", label: "Start Date", _style: "min-width:100px;" },
-  { key: "method", label: "Method", _style: "min-width:100px;" },
 ];
 
 export default {
@@ -93,7 +92,18 @@ export default {
           }
         });
     },
+     checkAdmin(){
+      if($nuxt.$auth.user.role_id == 1){
+        this.fields.push({
+          'key' : 'method',
+          'label' : 'Method'
+        })
+      }
+    }
   },
+  mounted() {
+    this.checkAdmin();
+  }
 };
 </script>
 <style>

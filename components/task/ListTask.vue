@@ -47,7 +47,6 @@
               <CButton color="danger" @click="deleteTask(item.id)">
                 <CIcon :content="$options.freeSet.cilTrash" />
               </CButton>
-           
             </td>
           </template>
           <!-- ============================================================================================================== -->
@@ -71,8 +70,12 @@
               :duration="collapseDuration"
             >
               <!-- <CCardBody> -->
-                   <CButton color="primary" class="mb-2">
-                <nuxt-link to="/task/add" class="text-white d-block w-100 ">
+              <CButton
+                color="primary"
+                class="mb-2"
+                v-if="$nuxt.$auth.user.role_id == 1"
+              >
+                <nuxt-link to="/task/add" class="text-white d-block w-100">
                   Add</nuxt-link
                 >
               </CButton>
@@ -165,7 +168,6 @@ const fields = [
   { key: "status", label: "Status" },
   { key: "start_date", label: "Start Date" },
   { key: "due_date", label: "Due Date" },
-  { key: "method", label: "Method" },
   {
     key: "show_details",
     label: "",
@@ -201,7 +203,6 @@ export default {
   },
   methods: {
     toggleDetails(item, index) {
-      console.log(item.id);
       // i = index;
       // for( i=0; i < 10 ; i++){
       //   this.$set(this.dataTasks[i], "_toggled", item._toggled);
@@ -210,8 +211,8 @@ export default {
       this.$set(this.dataTasks[index], "_toggled", !item._toggled);
       this.collapseDuration = 300;
       this.$nextTick(() => {
-      this.collapseDuration = 0;
-      this.getDataById(item.id);
+        this.collapseDuration = 0;
+        this.getDataById(item.id);
       });
     },
     /**
@@ -230,9 +231,15 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            axios.delete("http://localhost:8000/api/task/" + id).then((res) => {
-              this.$emit("getListTasks", this.dataTasks);
-            });
+            axios
+              .delete("http://localhost:8000/api/task/" + id, {
+                headers: {
+                  Authorization: `${$nuxt.$auth.getToken("local")}`,
+                },
+              })
+              .then((res) => {
+                this.$emit("getListTasks", this.dataTasks);
+              });
             swal.fire("Deleted!", "Your file has been deleted.", "success");
           }
         });
@@ -252,13 +259,30 @@ export default {
     getDataById(id) {
       // const url = this.search ? "http://127.0.0.1:8000/api/tasks?subject="+this.search : "http://127.0.0.1:8000/api/task";
       axios
-        .get("http://127.0.0.1:8000/api/task?parent_id=" + id)
+        .get("http://127.0.0.1:8000/api/task?parent_id=" + id, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
         .then((res) => {
           console.log(res.data.task);
           this.details = res.data;
-          console.log(this.details);
         });
     },
+
+    checkAdmin() {
+      if ($nuxt.$auth.user.role_id == 1) {
+        this.fields.push({
+          key: "method",
+          label: "Method",
+        });
+      }
+      console.log(fields);
+    },
+  },
+
+  mounted() {
+    this.checkAdmin();
   },
 };
 </script>

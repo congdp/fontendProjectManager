@@ -180,8 +180,7 @@ export default {
     if (this.$route.params.id != null) {
       this.getTaskByID(this.$route.params.id);
     }
-    this.getData(),
-    this.getDataUser();
+    this.getData(), this.getDataUser();
   },
   props: {
     title: "",
@@ -191,30 +190,41 @@ export default {
      * create task
      */
     createTask() {
-       console.log('OK')
-      this.validate();
-      if (this.errors.length > 0) {
-        return this.errors;
-      } else {
-        axios.post("http://localhost:8000/api/task", this.form).then((res) => {
-          console.log('OK')
-          this.$router.push("/task");
-          swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Successfully Added",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        });
-      }
+        this.validate();
+        if (this.errors.length > 0) {
+          return this.errors;
+        } else {
+          axios
+            .post("http://localhost:8000/api/task", this.form, {
+              headers: {
+                Authorization: `${$nuxt.$auth.getToken("local")}`,
+              },
+            }).catch((err)=>{
+              console.log(err)
+            })
+            .then((res) => {
+              console.log("OK");
+              this.$router.push("/task");
+              swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Successfully Added",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            });
+        }
     },
     /**
      * get blog by id
      */
     getTaskByID(id) {
       axios
-        .get("http://localhost:8000/api/task/" + id)
+        .get("http://localhost:8000/api/task/" + id, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
         .then((res) => (this.form = res.data));
     },
 
@@ -227,7 +237,11 @@ export default {
         return this.errors;
       } else {
         axios
-          .put("http://localhost:8000/api/task/" + id, this.form)
+          .put("http://localhost:8000/api/task/" + id, this.form, {
+            headers: {
+              Authorization: `${$nuxt.$auth.getToken("local")}`,
+            },
+          })
           .then((res) => {
             this.$router.push("/task");
             swal.fire({
@@ -257,14 +271,26 @@ export default {
     },
 
     getData() {
-      axios.get("http://127.0.0.1:8000/api/projects").then((res) => {
-        this.dataTasks = res.data;
-      });
+      axios
+        .get("http://127.0.0.1:8000/api/projects", {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
+        .then((res) => {
+          this.dataTasks = res.data;
+        });
     },
     getDataUser() {
-      axios.get("http://127.0.0.1:8000/api/all-user").then((res) => {
-        this.dataUsers = res.data;
-      });
+      axios
+        .get("http://127.0.0.1:8000/api/all-user", {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
+        .then((res) => {
+          this.dataUsers = res.data;
+        });
     },
   },
 };

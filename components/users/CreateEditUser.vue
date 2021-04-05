@@ -33,7 +33,7 @@
           </CCol>
         </CRow>
         <CRow>
-          <!-- <CCol sm="12">
+          <CCol sm="12">
               <label>Role</label>
               <select id="id_project" v-model="form.role_id" class="form-control">
               <option
@@ -44,7 +44,7 @@
               {{ item.name }}
               </option>
             </select>
-          </CCol> -->
+          </CCol>
         </CRow>
         <br>
         <CRow>
@@ -78,8 +78,8 @@ export default {
       form: {
         id: "",
         name: "",
-        password : "",
-        password_confirmation:"",
+        password: "",
+        password_confirmation: "",
         email: "",
         role_id: "",
       },
@@ -98,7 +98,11 @@ export default {
         return this.errors;
       } else {
         axios
-          .post("http://127.0.0.1:8000/api/auth/signup", this.form)
+          .post("http://127.0.0.1:8000/api/auth/signup", this.form, {
+            headers: {
+              Authorization: `${$nuxt.$auth.getToken("local")}`,
+            },
+          })
           .then((res) => {
             this.$router.push("/user");
             console.log(res.data);
@@ -141,7 +145,11 @@ export default {
         return this.errors;
       } else {
         axios
-          .put("http://127.0.0.1:8000/api/user/" + id, this.form)
+          .put("http://127.0.0.1:8000/api/user/" + id, this.form, {
+            headers: {
+              Authorization: `${$nuxt.$auth.getToken("local")}`,
+            },
+          })
           .then((res) => {
             this.$router.push("/");
             swal.fire({
@@ -157,28 +165,40 @@ export default {
 
     /**
      * get data user login
-     * @param Interger id user 
+     * @param Interger id user
      */
     getDataUser(id) {
-      axios.get("http://127.0.0.1:8000/api/user/" + id).then((res) => {
-        this.form = res.data.user;
-      });
+      axios
+        .get("http://127.0.0.1:8000/api/user/" + id, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
+        .then((res) => {
+          this.form = res.data.user;
+        });
     },
 
     /**
      * get data role in api
      */
     getDataRole() {
-      axios.get("http://127.0.0.1:8000/api/roles").then((res) => {
-        this.dataRoles = res.data;
-      });
+      axios
+        .get("http://127.0.0.1:8000/api/roles", {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
+        .then((res) => {
+          this.dataRoles = res.data;
+        });
     },
   },
   mounted() {
-    // this.getDataRole();
+    this.getDataRole();
 
     /**
-     * check param in url 
+     * check param in url
      * if has param call method getDataUser
      */
     if (this.$route.params.id) {

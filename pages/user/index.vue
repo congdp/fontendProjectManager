@@ -37,11 +37,14 @@ export default {
      * get all user in api
      */
     getUser() {
-      try {
+      if($nuxt.$auth.user.role_id === 1){
+        this.fields.push('show_details');
+      }
+      console.log(this.fields);
         axios
           .get("http://127.0.0.1:8000/api/all-user", {
             headers: {
-              Authorization: `${$nuxt.$auth.getToken('local')}`,
+              Authorization: `${$nuxt.$auth.getToken("local")}`,
             },
           })
           .then((res) => {
@@ -49,9 +52,6 @@ export default {
             console.log(res);
             // this.page = res.data;
           });
-      } catch (error) {
-        console.log(error);
-      }
     },
 
     /**
@@ -61,7 +61,11 @@ export default {
     getKeyword(value) {
       this.search = value;
       axios
-        .get("http://localhost:8000/api/search?username=" + this.search)
+        .get("http://localhost:8000/api/search?username=" + this.search, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
         .then((res) => {
           this.dataUser = res.data;
         });

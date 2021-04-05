@@ -5,7 +5,7 @@
         <h3>List Role</h3>
       </CCardHeader>
       <CCardBody>
-        <CButton color="primary" class="m-2 btn_add">
+        <CButton color="primary" class="m-2 btn_add"  v-if="$nuxt.$auth.user.role_id == 1">
           <nuxt-link to="/roles/Create" class="text-white d-block">
             + Add</nuxt-link
           >
@@ -44,7 +44,6 @@ const fields = [
   { key: "name", label: "RoleName", _style: "min-width:150px" },
   { key: "created_at", _style: "min-width:50px;" },
   { key: "updated_at", _style: "min-width:50px;" },
-  { key: "method", label: "Method", _style: "min-width:100px;" },
 ];
 export default {
   name: "ListRole",
@@ -90,12 +89,28 @@ export default {
       this.keySearch = value;
       console.log(this.keySearch);
       axios
-        .get("http://localhost:8000/api/roles/search?name=" + this.keySearch)
+        .get("http://localhost:8000/api/roles/search?name=" + this.keySearch, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
         .then((res) => {
           this.dataUser = res.data;
         });
     },
+
+    checkAdmin(){
+      if($nuxt.$auth.user.role_id == 1){
+        this.fields.push({
+          'key' : 'method',
+          'label' : 'Method'
+        })
+      }
+    }
   },
+  mounted(){
+    this.checkAdmin();
+  }
 };
 </script>
 

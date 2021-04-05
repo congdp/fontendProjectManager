@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="$nuxt.$auth.user.role_id == 1">
     <CCard>
       <CCardHeader>
         {{ title }}
@@ -48,6 +49,11 @@
         </CButton>
       </CCardFooter>
     </CCard>
+  </div>
+
+  <div v-else>
+    <h1>user don't has permission</h1>
+  </div>
   </div>
 </template>
 <script>

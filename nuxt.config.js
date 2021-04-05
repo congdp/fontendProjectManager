@@ -36,7 +36,7 @@ export default {
      */
     plugins: [
         { src: '~/plugins/coreui' },
-        { src: '~/plugins/call-api/index.js'},
+        // { src: '~/plugins/call-api/index.js'},
     ],
     /*
      ** Nuxt.js dev-modules
