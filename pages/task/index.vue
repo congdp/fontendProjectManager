@@ -27,7 +27,11 @@ export default {
      */
     getData() {
       // const url = this.search ? "http://127.0.0.1:8000/api/tasks?subject="+this.search : "http://127.0.0.1:8000/api/task";
-      axios.get("http://127.0.0.1:8000/api/task?").then((res) => {
+      axios.get("http://127.0.0.1:8000/api/task?",{
+        headers: {
+              Authorization: `${$nuxt.$auth.getToken('local')}`,
+            },
+      }).then((res) => {
         console.log(res.data.task);
         this.dataTasks = res.data;
         console.log(this.dataTasks[0].id);

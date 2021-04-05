@@ -67,8 +67,8 @@ export default {
       errors: [],
     };
   },
-  props:{
-    title:"",
+  props: {
+    title: "",
   },
   mounted() {
     if (this.$route.params.id != null) {
@@ -85,7 +85,11 @@ export default {
         return this.errors;
       } else {
         axios
-          .post("http://localhost:8000/api/projects", this.form)
+          .post("http://localhost:8000/api/projects", this.form, {
+            headers: {
+              Authorization: `${$nuxt.$auth.getToken("local")}`,
+            },
+          })
           .then((res) => {
             this.$router.push("/project");
             swal.fire({
@@ -103,7 +107,11 @@ export default {
      */
     getProjectByID(id) {
       axios
-        .get("http://localhost:8000/api/projects/" + id)
+        .get("http://localhost:8000/api/projects/" + id, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
         .then((res) => (this.form = res.data));
     },
     /**
@@ -115,7 +123,11 @@ export default {
         return this.errors;
       } else {
         axios
-          .put("http://localhost:8000/api/projects/" + id, this.form)
+          .put("http://localhost:8000/api/projects/" + id, this.form,{
+            headers: {
+              Authorization: `${$nuxt.$auth.getToken('local')}`,
+            },
+          })
           .then((res) => {
             this.$router.push("/project");
             swal.fire({

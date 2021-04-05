@@ -38,11 +38,17 @@ export default {
      */
     getUser() {
       try {
-        axios.get("http://127.0.0.1:8000/api/all-user").then((res) => {
-        this.dataUser = res.data;
-        // console.log(res);
-        // this.page = res.data;
-      });
+        axios
+          .get("http://127.0.0.1:8000/api/all-user", {
+            headers: {
+              Authorization: `${$nuxt.$auth.getToken('local')}`,
+            },
+          })
+          .then((res) => {
+            this.dataUser = res.data;
+            console.log(res);
+            // this.page = res.data;
+          });
       } catch (error) {
         console.log(error);
       }

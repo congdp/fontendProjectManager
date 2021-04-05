@@ -35,7 +35,8 @@ export default {
      ** Plugins to load before mounting the App
      */
     plugins: [
-        { src: '~/plugins/coreui' }
+        { src: '~/plugins/coreui' },
+        { src: '~/plugins/call-api/index.js'},
     ],
     /*
      ** Nuxt.js dev-modules

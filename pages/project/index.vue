@@ -6,17 +6,17 @@
 </template>
 <script>
 import axios from "axios";
-import Search from "@/components/common/Search"
+import Search from "@/components/common/Search";
 import ListProject from "~/components/project/ListProject";
 export default {
   components: {
     ListProject,
-    Search
+    Search,
   },
   data() {
     return {
       dataProjects: [],
-      search:"",
+      search: "",
     };
   },
   methods: {
@@ -24,20 +24,31 @@ export default {
      * get list blog
      */
     getData() {
-      axios.get("http://127.0.0.1:8000/api/projects").then((res) => {
-        this.dataProjects = res.data;
-        // this.page = res.data
-
-      });
+      axios
+        .get("http://127.0.0.1:8000/api/projects", {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
+        .then((res) => {
+          this.dataProjects = res.data;
+          // this.page = res.data
+        });
     },
-      getKeyword(value){
+    getKeyword(value) {
       this.search = value;
-      axios.get("http://localhost:8000/api/project?name="+this.search).then(res => {
-        this.dataProjects = res.data;
-        console.log(res.data);
-        // this.page = res.data;
-      });
-    }
+      axios
+        .get("http://localhost:8000/api/project?name=" + this.search, {
+          headers: {
+            Authorization: `${$nuxt.$auth.getToken("local")}`,
+          },
+        })
+        .then((res) => {
+          this.dataProjects = res.data;
+          console.log(res.data);
+          // this.page = res.data;
+        });
+    },
   },
   mounted() {
     this.getData();

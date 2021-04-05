@@ -1,12 +1,14 @@
 <template>
-  <div >
+  <div>
     <CCard>
       <CCardHeader>
         <h3>List Projects</h3>
       </CCardHeader>
       <CCardBody>
         <CButton color="primary" class="m-2 btn_add">
-          <nuxt-link to="/project/add" class="text-white d-block"> + Add</nuxt-link>
+          <nuxt-link to="/project/add" class="text-white d-block">
+            + Add</nuxt-link
+          >
         </CButton>
 
         <CDataTable
@@ -79,7 +81,11 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             axios
-              .delete("http://localhost:8000/api/projects/" + id)
+              .delete("http://localhost:8000/api/projects/" + id, {
+                headers: {
+                  Authorization: `${$nuxt.$auth.getToken("local")}`,
+                },
+              })
               .then((res) => {
                 this.$emit("getListProjects", this.dataProjects);
               });
@@ -91,12 +97,12 @@ export default {
 };
 </script>
 <style>
-.btn_add{
+.btn_add {
   width: 100px;
   position: absolute;
   top: 20px;
 }
-.card-body{
+.card-body {
   position: relative;
 }
 </style>
